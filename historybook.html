@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HistoryBook - John Hancock</title>
+<style>
+ @import url('https://fonts.googleapis.com/css2?family=Tahoma&display=swap');
+
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+
+ body {
+ background: #e9eaed;
+ font-family: 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
+ font-size: 11px;
+ color: #333;
+ min-height: 100vh;
+ }
+
+ a {
+ color: #3b5998;
+ text-decoration: none;
+ cursor: pointer;
+ }
+ a:hover { text-decoration: underline; }
+
+ /* ====== TOP NAV (Classic FB Blue Bar) ====== */
+ .topbar {
+ background: linear-gradient(to bottom, #4e69a2, #3b5998);
+ border-bottom: 1px solid #133783;
+ height: 42px;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 0 16px;
+ position: sticky;
+ top: 0;
+ z-index: 100;
+ box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+ }
+ .topbar-logo {
+ font-family: 'Klavika', 'Lucida Grande', Tahoma, sans-serif;
+ font-size: 22px;
+ font-weight: bold;
+ color: #fff;
+ letter-spacing: -0.5px;
+ text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+ }
+ .topbar-logo span { font-weight: 300; opacity: 0.85; font-size: 14px; margin-left: 2px; }
+ .topbar-search {
+ display: flex;
+ align-items: center;
+ gap: 4px;
+ }
+ .topbar-search input {
+ width: 180px;
+ height: 24px;
+ border: 1px solid #1d4088;
+ border-radius: 3px;
+ padding: 2px 6px;
+ font-size: 11px;
+ font-family: inherit;
+ outline: none;
+ background: rgba(255,255,255,0.9);
+ }
+ .topbar-search input:focus { background: #fff; border-color: #8b9dc3; }
+ .topbar-search button {
+ background: linear-gradient(to bottom, #6e85b7, #4e69a2);
+ border: 1px solid #2f477a;
+ color: #fff;
+ font-size: 11px;
+ padding: 3px 10px;
+ border-radius: 3px;
+ cursor: pointer;
+ height: 24px;
+ }
+ .topbar-nav {
+ display: flex;
+ gap: 12px;
+ align-items: center;
+ }
+ .topbar-nav a {
+ color: #d8dfea;
+ font-size: 11px;
+ font-weight: bold;
+ }
+ .topbar-nav a:hover { color: #fff; text-decoration: none; }
+ .topbar-nav .nav-active { color: #fff; }
+
+ /* ====== PROFILE HEADER ====== */
+ .profile-header {
+ background: #fff;
+ border-bottom: 1px solid #ccc;
+ padding: 0;
+ }
+ .profile-header-inner {
+ max-width: 960px;
+ margin: 0 auto;
+ display: flex;
+ align-items: flex-end;
+ gap: 16px;
+ padding: 16px 16px 0 16px;
+ }
+ .profile-pic-wrap {
+ width: 180px;
+ flex-shrink: 0;
+ }
+ .profile-pic {
+ width: 180px;
+ height: 180px;
+ background: #ddd;
+ border: 3px solid #fff;
+ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ overflow: hidden;
+ position: relative;
+ }
+ .profile-pic .placeholder-portrait {
+ width: 100%;
+ height: 100%;
+ background: linear-gradient(135deg, #b8860b 0%, #daa520 40%, #f5deb3 100%);
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ color: #5c3a00;
+ font-size: 13px;
+ font-weight: bold;
+ text-align: center;
+ padding: 8px;
+ }
+ .placeholder-portrait .initials {
+ font-size: 52px;
+ font-weight: bold;
+ color: #3b2600;
+ text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+ line-height: 1;
+ margin-bottom: 4px;
+ font-family: Georgia, 'Times New Roman', serif;
+ }
+ .placeholder-portrait .label { font-size: 9px; opacity: 0.7; }
+ .profile-header-info {
+ flex: 1;
+ padding-bottom: 12px;
+ }
+ .profile-name {
+ font-size: 20px;
+ font-weight: bold;
+ color: #333;
+ margin-bottom: 2px;
+ }
+ .profile-tabs {
+ display: flex;
+ gap: 0;
+ border-top: 1px solid #ccc;
+ margin-top: 10px;
+ max-width: 960px;
+ margin-left: auto;
+ margin-right: auto;
+ padding: 0 16px;
+ }
+ .profile-tab {
+ padding: 8px 16px;
+ font-size: 12px;
+ font-weight: bold;
+ color: #3b5998;
+ cursor: pointer;
+ border-bottom: 2px solid transparent;
+ transition: border-color 0.15s;
+ }
+ .profile-tab:hover { background: #f0f0f0; text-decoration: none; }
+ .profile-tab.active {
+ border-bottom: 2px solid #3b5998;
+ color: #333;
+ }
+
+ /* ====== MAIN LAYOUT ====== */
+ .main-wrap {
+ max-width: 960px;
+ margin: 12px auto;
+ display: flex;
+ gap: 12px;
+ padding: 0 16px;
+ }
+ .sidebar {
+ width: 300px;
+ flex-shrink: 0;
+ display: flex;
+ flex-direction: column;
+ gap: 10px;
+ }
+ .content {
+ flex: 1;
+ display: flex;
+ flex-direction: column;
+ gap: 10px;
+ }
+
+ /* ====== BOXES (classic FB modules) ====== */
+ .fb-box {
+ background: #fff;
+ border: 1px solid #ccc;
+ border-radius: 3px;
+ overflow: hidden;
+ }
+ .fb-box-header {
+ background: linear-gradient(to bottom, #f6f7f8, #eceef1);
+ border-bottom: 1px solid #ccc;
+ padding: 6px 10px;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ }
+ .fb-box-header h3 {
+ font-size: 12px;
+ font-weight: bold;
+ color: #333;
+ }
+ .fb-box-header a {
+ font-size: 10px;
+ }
+ .fb-box-body {
+ padding: 10px;
+ }
+
+ /* ====== INFO TABLE ====== */
+ .info-table {
+ width: 100%;
+ border-collapse: collapse;
+ }
+ .info-table tr {
+ border-bottom: 1px solid #e9eaed;
+ }
+ .info-table tr:last-child { border-bottom: none; }
+ .info-table td {
+ padding: 5px 0;
+ vertical-align: top;
+ font-size: 11px;
+ line-height: 1.4;
+ }
+ .info-table .label {
+ color: #999;
+ width: 100px;
+ padding-right: 8px;
+ font-weight: bold;
+ text-align: right;
+ }
+ .info-table .value {
+ color: #333;
+ }
+
+ /* ====== FRIENDS GRID ====== */
+ .friends-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 6px;
+ }
+ .friend-card {
+ text-align: center;
+ padding: 6px 2px;
+ border-radius: 3px;
+ transition: background 0.15s;
+ cursor: pointer;
+ }
+ .friend-card:hover { background: #f0f2f5; text-decoration: none; }
+ .friend-avatar {
+ width: 64px;
+ height: 64px;
+ margin: 0 auto 4px;
+ border-radius: 3px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-weight: bold;
+ font-size: 18px;
+ color: #fff;
+ text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+ }
+ .friend-card .friend-name {
+ font-size: 10px;
+ font-weight: bold;
+ color: #3b5998;
+ display: block;
+ }
+
+ /* ====== GROUPS ====== */
+ .group-item {
+ display: flex;
+ align-items: center;
+ gap: 8px;
+ padding: 6px 0;
+ border-bottom: 1px solid #e9eaed;
+ }
+ .group-item:last-child { border-bottom: none; }
+ .group-icon {
+ width: 36px;
+ height: 36px;
+ border-radius: 4px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 16px;
+ flex-shrink: 0;
+ }
+ .group-info .group-name {
+ font-size: 11px;
+ font-weight: bold;
+ color: #3b5998;
+ }
+ .group-info .group-members {
+ font-size: 10px;
+ color: #999;
+ }
+
+ /* ====== WALL ====== */
+ .wall-post-box {
+ padding: 10px;
+ display: flex;
+ gap: 8px;
+ align-items: flex-start;
+ }
+ .wall-post-box .mini-avatar {
+ width: 32px;
+ height: 32px;
+ border-radius: 3px;
+ flex-shrink: 0;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 11px;
+ font-weight: bold;
+ color: #fff;
+ }
+ .wall-post-box .post-input {
+ flex: 1;
+ border: 1px solid #bdc7d8;
+ border-radius: 3px;
+ padding: 6px 8px;
+ font-size: 11px;
+ font-family: inherit;
+ color: #999;
+ background: #fff;
+ resize: none;
+ height: 32px;
+ }
+ .wall-post {
+ padding: 10px;
+ border-bottom: 1px solid #e9eaed;
+ display: flex;
+ gap: 8px;
+ align-items: flex-start;
+ animation: fadeIn 0.3s ease;
+ }
+ .wall-post:last-child { border-bottom: none; }
+ .wall-post .mini-avatar {
+ width: 40px;
+ height: 40px;
+ border-radius: 3px;
+ flex-shrink: 0;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 13px;
+ font-weight: bold;
+ color: #fff;
+ }
+ .wall-post .post-content {
+ flex: 1;
+ }
+ .wall-post .post-author {
+ font-weight: bold;
+ color: #3b5998;
+ font-size: 11px;
+ }
+ .wall-post .post-arrow { color: #999; font-size: 10px; margin: 0 4px; }
+ .wall-post .post-target {
+ font-weight: bold;
+ color: #3b5998;
+ font-size: 11px;
+ }
+ .wall-post .post-text {
+ font-size: 11px;
+ line-height: 1.5;
+ color: #333;
+ margin-top: 3px;
+ }
+ .wall-post .post-meta {
+ font-size: 10px;
+ color: #999;
+ margin-top: 5px;
+ display: flex;
+ gap: 8px;
+ align-items: center;
+ }
+ .wall-post .post-meta a { font-size: 10px; }
+
+ /* ====== PHOTOS ====== */
+ .photos-grid {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 4px;
+ }
+ .photo-thumb {
+ aspect-ratio: 1;
+ border-radius: 2px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 10px;
+ color: #fff;
+ text-align: center;
+ padding: 6px;
+ font-weight: bold;
+ text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+ cursor: pointer;
+ transition: opacity 0.15s;
+ }
+ .photo-thumb:hover { opacity: 0.85; }
+
+ 
+  /* ====== IMG OVERRIDES (for real images) ====== */
+  img.friend-avatar {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 4px;
+    border-radius: 3px;
+    display: block;
+    object-fit: cover;
+  }
+  img.group-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    object-fit: cover;
+  }
+  img.mini-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    object-fit: cover;
+  }
+  .wall-post-box img.mini-avatar {
+    width: 32px;
+    height: 32px;
+  }
+  img.photo-thumb {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 2px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    display: block;
+  }
+  img.photo-thumb:hover { opacity: 0.85; }
+  .profile-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ====== ABOUT ME ====== */
+ .about-text {
+ font-size: 11px;
+ line-height: 1.6;
+ color: #333;
+ }
+
+ /* ====== SKILLS / INTERESTS ====== */
+ .skill-tags {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 4px;
+ }
+ .skill-tag {
+ background: #e8eaf0;
+ color: #3b5998;
+ padding: 2px 8px;
+ border-radius: 2px;
+ font-size: 10px;
+ font-weight: bold;
+ }
+
+ /* ====== FOOTER ====== */
+ .fb-footer {
+ max-width: 960px;
+ margin: 20px auto 40px;
+ padding: 0 16px;
+ text-align: center;
+ font-size: 10px;
+ color: #999;
+ border-top: 1px solid #ccc;
+ padding-top: 12px;
+ }
+ .fb-footer a { font-size: 10px; margin: 0 6px; }
+
+ /* ====== POKE / ACTION BUTTONS ====== */
+ .action-buttons {
+ display: flex;
+ gap: 6px;
+ flex-wrap: wrap;
+ }
+ .fb-btn {
+ background: linear-gradient(to bottom, #f5f6f7, #e2e4e9);
+ border: 1px solid #ccc;
+ border-radius: 3px;
+ padding: 4px 10px;
+ font-size: 11px;
+ font-weight: bold;
+ color: #333;
+ cursor: pointer;
+ font-family: inherit;
+ display: inline-flex;
+ align-items: center;
+ gap: 4px;
+ }
+ .fb-btn:hover { background: linear-gradient(to bottom, #e8e9ec, #d5d8de); }
+ .fb-btn-primary {
+ background: linear-gradient(to bottom, #6e85b7, #4e69a2);
+ border-color: #2f477a;
+ color: #fff;
+ }
+ .fb-btn-primary:hover { background: linear-gradient(to bottom, #5c75a8, #3b5998); }
+
+ /* ====== SUBTLE ANIMATION ====== */
+ @keyframes fadeIn {
+ from { opacity: 0; transform: translateY(4px); }
+ to { opacity: 1; transform: translateY(0); }
+ }
+
+ /* ====== ONLINE STATUS ====== */
+ .online-dot {
+ display: inline-block;
+ width: 7px;
+ height: 7px;
+ background: #6cbc6c;
+ border-radius: 50%;
+ margin-left: 4px;
+ vertical-align: middle;
+ }
+
+ /* ====== NETWORK BADGE ====== */
+ .network-badge {
+ background: #e9eaed;
+ color: #666;
+ font-size: 10px;
+ padding: 1px 6px;
+ border-radius: 2px;
+ display: inline-block;
+ margin-top: 4px;
+ }
+
+ /* ====== SOURCES BOX ====== */
+ .sources-list {
+ font-size: 10px;
+ color: #666;
+ line-height: 1.6;
+ }
+ .sources-list li {
+ margin-bottom: 3px;
+ list-style: decimal;
+ margin-left: 16px;
+ }
+</style>
+</head>
+<body>
+
+<!-- ====== TOP NAVIGATION BAR ====== -->
+<div class="topbar">
+ <div style="display:flex;align-items:center;gap:12px;">
+ <div class="topbar-logo">historybook <span>| est. 1776</span></div>
+ <div class="topbar-search">
+ <input type="text" placeholder="Search HistoryBook..." />
+ <button>Search</button>
+ </div>
+ </div>
+ <div class="topbar-nav">
+ <a href="#" class="nav-active">Home</a>
+ <a href="#">Profile</a>
+ <a href="#">Friends</a>
+ <a href="#">Messages <span style="background:#e34234;color:#fff;padding:0 4px;border-radius:2px;font-size:9px;">3</span></a>
+ <a href="#">Notifications</a>
+ <a href="#">Settings</a>
+ </div>
+</div>
+
+<!-- ====== PROFILE HEADER ====== -->
+<div class="profile-header">
+ <div class="profile-header-inner">
+ <div class="profile-pic-wrap">
+ <div class="profile-pic">
+ <img src="John.png" alt="John Hancock" style="width:100%;height:100%;object-fit:cover;">
+ </div>
+ </div>
+ <div class="profile-header-info">
+ <div class="profile-name">John Hancock <span class="online-dot" title="Online Now"></span></div>
+ <div style="font-size:11px;color:#666;margin-top:2px;">
+ "There, John Bull can read my name without spectacles!"
+ </div>
+ <div class="network-badge"> Boston, Massachusetts</div>
+ <div style="margin-top:8px;" class="action-buttons">
+ <button class="fb-btn fb-btn-primary">Send Message</button>
+ <button class="fb-btn">Add Friend</button>
+ <button class="fb-btn">Poke</button>
+ </div>
+ </div>
+ </div>
+ <div class="profile-tabs">
+ <a class="profile-tab active">Wall</a>
+ <a class="profile-tab">Info</a>
+ <a class="profile-tab">Photos</a>
+ <a class="profile-tab">Friends</a>
+ <a class="profile-tab">Groups</a>
+ </div>
+</div>
+
+<!-- ====== MAIN CONTENT ====== -->
+<div class="main-wrap">
+
+ <!-- ====== LEFT SIDEBAR ====== -->
+ <div class="sidebar">
+
+ <!-- BASIC INFO -->
+ <div class="fb-box">
+ <div class="fb-box-header">
+ <h3>Information</h3>
+ <a href="#">Edit</a>
+ </div>
+ <div class="fb-box-body">
+ <table class="info-table">
+ <tr>
+ <td class="label">Birthday:</td>
+ <td class="value">January 23, 1737</td>
+ </tr>
+ <tr>
+ <td class="label">Born in:</td>
+ <td class="value">Braintree, Massachusetts<br><span style="color:#999;font-size:10px;">(now Quincy, MA)</span></td>
+ </tr>
+ <tr>
+ <td class="label">Lives in:</td>
+ <td class="value"><a href="#">Boston, Massachusetts</a></td>
+ </tr>
+ <tr>
+ <td class="label">Also lived:</td>
+ <td class="value">Lexington, MA · England</td>
+ </tr>
+ <tr>
+ <td class="label">Married to:</td>
+ <td class="value"><a href="#">Dorothy Quincy</a> </td>
+ </tr>
+ <tr>
+ <td class="label">Children:</td>
+ <td class="value">2 children<br><span style="color:#999;font-size:10px;">Wife expecting a daughter!</span></td>
+ </tr>
+ <tr>
+ <td class="label">Employer:</td>
+ <td class="value">The State of Massachusetts</td>
+ </tr>
+ <tr>
+ <td class="label">Email:</td>
+ <td class="value"><a href="#">jhancock@hancockhouse.com</a></td>
+ </tr>
+ </table>
+ </div>
+ </div>
+
+ <!-- EDUCATION & WORK -->
+ <div class="fb-box">
+ <div class="fb-box-header">
+ <h3>Education & Work</h3>
+ </div>
+ <div class="fb-box-body">
+ <table class="info-table">
+ <tr>
+ <td class="label">Education:</td>
+ <td class="value">
+ <a href="#">Harvard College</a><br>
+ <span style="color:#999;">Class of 1754 (1750–1754)</span><br><br>
+ <a href="#">Boston Latin School</a><br>
+ <span style="color:#999;">Graduated before 1750</span>
+ </td>
+ </tr>
+ <tr>
+ <td class="label">Career:</td>
+ <td class="value">
+ <strong>Governor of Massachusetts</strong><br>
+ <span style="color:#999;">Current Position</span><br><br>
+ <strong>President, 2nd Continental Congress</strong><br>
+ <span style="color:#999;">May 1775 – October 1777</span><br><br>
+ <strong>Patriot Leader</strong><br>
+ <span style="color:#999;">Active in the cause of liberty</span><br><br>
+ <strong>Merchant</strong><br>
+ <span style="color:#999;">Import/Export Business<br>(inherited from Uncle Thomas)</span>
+ </td>
+ </tr>
+ </table>
+ </div>
+ </div>
+
+ <!-- SKILLS -->
+ <div class="fb-box">
+ <div class="fb-box-header">
+ <h3>Skills</h3>
+ </div>
+ <div class="fb-box-body">
+ <div class="skill-tags">
+ <span class="skill-tag">Finance</span>
+ <span class="skill-tag">Sales</span>
+ <span class="skill-tag">Problem Solving</span>
+ <span class="skill-tag">Unifying People</span>
+ <span class="skill-tag">Politician</span>
+ </div>
+ </div>
+ </div>
+
+ <!-- FRIENDS -->
+ <div class="fb-box">
+ <div class="fb-box-header">
+ <h3>Friends <span style="font-weight:normal;color:#999;">(3)</span></h3>
+ <a href="#">See All</a>
+ </div>
+ <div class="fb-box-body">
+ <div class="friends-grid">
+ <a class="friend-card">
+ <img class="friend-avatar" src="JohnAa.png" alt="John Adams">
+ <span class="friend-name">John Adams</span>
+ </a>
+ <a class="friend-card">
+ <img class="friend-avatar" src="Samuel.png" alt="Samuel Adams">
+ <span class="friend-name">Samuel Adams</span>
+ </a>
+ <a class="friend-card">
+ <img class="friend-avatar" src="ben.png" alt="Benjamin Franklin">
+ <span class="friend-name">Benjamin Franklin</span>
+ </a>
+ </div>
+ </div>
+ </div>
+
+ <!-- GROUPS -->
+ <div class="fb-box">
+ <div class="fb-box-header">
+ <h3>Groups</h3>
+ </div>
+ <div class="fb-box-body">
+ <div class="group-item">
+ <img class="group-icon" src="sonsofL.png" alt="Sons of Liberty">
+ <div class="group-info">
+ <div class="group-name">Sons of Liberty</div>
+ <div class="group-members">Active Member</div>
+ </div>
+ </div>
+ <div class="group-item">
+ <img class="group-icon" src="BTC.png" alt="Boston Town Committee">
+ <div class="group-info">
+ <div class="group-name">Boston Town Committee</div>
+ <div class="group-members">Former Chairman</div>
+ </div>
+ </div>
+ <div class="group-item">
+ <img class="group-icon" src="2CC.png" alt="2nd Continental Congress">
+ <div class="group-info">
+ <div class="group-name">2nd Continental Congress</div>
+ <div class="group-members">President · Member since 1775</div>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- PHOTOS -->
+ <div class="fb-box">
+ <div class="fb-box-header">
+ <h3>Photos <span style="font-weight:normal;color:#999;">(3)</span></h3>
+ <a href="#">See All</a>
+ </div>
+ <div class="fb-box-body">
+ <div class="photos-grid">
+ <img class="photo-thumb" src="Singthedeclration.png" alt="Signing the Declaration">
+ <img class="photo-thumb" src="Hancockhouse.png" alt="Hancock House">
+ <img class="photo-thumb" src="2CC.png" alt="Continental Congress">
+ </div>
+ </div>
+ </div>
+
+ </div>
+
+ <!-- ====== RIGHT CONTENT (WALL) ====== -->
+ <div class="content">
+
+ <!-- ABOUT ME -->
+ <div class="fb-box">
+ <div class="fb-box-header">
+ <h3>About Me</h3>
+ </div>
+ <div class="fb-box-body">
+ <div class="about-text">
+ I currently reside in Boston, Massachusetts and serve as a proud member of the <strong>Continental Congress</strong> (1775–1780), presiding as its President from May 1775 to October 1777. I had hoped to be named Commander in Chief of the Continental Army, but that honor went to my esteemed colleague <a href="#">George Washington</a> - and I support his leadership fully.<br><br>
+ I am one of the wealthiest men in all 13 Colonies, thanks to the thriving mercantile import/export business I inherited from my dear Uncle Thomas Hancock. It has been my privilege to use this fortune in service of the cause of American liberty.<br><br>
+ My wife Dorothy and I are expecting our daughter soon - exciting times at the Hancock household! 
+ </div>
+ </div>
+ </div>
+
+ <!-- WALL -->
+ <div class="fb-box">
+ <div class="fb-box-header">
+ <h3>Wall</h3>
+ <a href="#">See All</a>
+ </div>
+
+ <!-- Post Composer -->
+ <div class="wall-post-box" style="border-bottom:1px solid #e9eaed;">
+ <img class="mini-avatar" src="John.png" alt="John Hancock">
+ <textarea class="post-input" placeholder="Write something on John's wall..."></textarea>
+ </div>
+
+ <!-- Wall Post 1: Signing -->
+ <div class="wall-post">
+ <img class="mini-avatar" src="John.png" alt="John Hancock">
+ <div class="post-content">
+ <span class="post-author">John Hancock</span>
+ <div class="post-text">
+ Just signed the Declaration of Independence. Made sure my signature was large enough that King George can read it without his spectacles. He may double his reward - I put him at defiance! 
+ </div>
+ <div class="post-meta">
+ <span>August 2, 1776</span>
+ <a href="#">Like</a>
+ <a href="#">Comment</a>
+ <span style="color:#6cbc6c;"> 1,776 people like this</span>
+ </div>
+ </div>
+ </div>
+
+ <!-- Wall Post 2: Sam Adams on the escape -->
+ <div class="wall-post">
+ <img class="mini-avatar" src="Samuel.png" alt="Samuel Adams">
+ <div class="post-content">
+ <span class="post-author">Samuel Adams</span>
+ <span class="post-arrow"></span>
+ <span class="post-target">John Hancock</span>
+ <div class="post-text">
+ John - I shall never forget the night we fled Lexington together in April 1775. The British troops were searching for us, and had it not been for our swift departure, we would have been captured. Liberty prevails, my friend!
+ </div>
+ <div class="post-meta">
+ <span>April 20, 1775</span>
+ <a href="#">Like</a>
+ <a href="#">Comment</a>
+ </div>
+ </div>
+ </div>
+
+ <!-- Wall Post 3: Paul Revere's midnight ride -->
+ <div class="wall-post">
+ <img class="mini-avatar" src="Paul.png" alt="Paul Revere">
+ <div class="post-content">
+ <span class="post-author">Paul Revere</span>
+ <span class="post-arrow"></span>
+ <span class="post-target">John Hancock</span>
+ <div class="post-text">
+ WAKE UP!! THE BRITISH ARE COMING! THE REGULARS ARE OUT! You and Adams need to leave Lexington NOW!! 
+ </div>
+ <div class="post-meta">
+ <span>April 18, 1775 · 12:01 AM</span>
+ <a href="#">Like</a>
+ <a href="#">Comment</a>
+ <span style="color:#6cbc6c;"> Samuel Adams and John Adams like this</span>
+ </div>
+ </div>
+ </div>
+
+ <!-- Wall Post 4: Dinner at Hancock House -->
+ <div class="wall-post">
+ <img class="mini-avatar" src="John.png" alt="John Hancock">
+ <div class="post-content">
+ <span class="post-author">John Hancock</span>
+ <div class="post-text">
+ Hosted a gathering at Hancock House this evening with fellow delegates. Nothing like welcoming friends to the family estate before we change history. 
+ </div>
+ <div class="post-meta">
+ <span>July 1776</span>
+ <a href="#">Like</a>
+ <a href="#">Comment</a>
+ </div>
+ </div>
+ </div>
+
+ <!-- Wall Post 5: John Adams comment -->
+ <div class="wall-post">
+ <img class="mini-avatar" src="JohnAa.png" alt="John Adams">
+ <div class="post-content">
+ <span class="post-author">John Adams</span>
+ <span class="post-arrow"></span>
+ <span class="post-target">John Hancock</span>
+ <div class="post-text">
+ Congratulations on presiding over the Congress, John. Your leadership has been invaluable to the cause. Massachusetts could not ask for a finer representative. 
+ </div>
+ <div class="post-meta">
+ <span>May 1775</span>
+ <a href="#">Like</a>
+ <a href="#">Comment</a>
+ </div>
+ </div>
+ </div>
+
+ <!-- Wall Post 6: Benjamin Franklin -->
+ <div class="wall-post">
+ <img class="mini-avatar" src="ben.png" alt="Benjamin Franklin">
+ <div class="post-content">
+ <span class="post-author">Benjamin Franklin</span>
+ <span class="post-arrow"></span>
+ <span class="post-target">John Hancock</span>
+ <div class="post-text">
+ I must say, Mr. Hancock, that signature of yours on the Declaration could be seen from across the Atlantic! King George himself must be squinting at it as we speak. Well done, sir! 
+ </div>
+ <div class="post-meta">
+ <span>August 1776</span>
+ <a href="#">Like</a>
+ <a href="#">Comment</a>
+ </div>
+ </div>
+ </div>
+
+ </div>
+
+ <!-- WORKS CITED -->
+ <div class="fb-box">
+ <div class="fb-box-header">
+ <h3>Works Cited</h3>
+ </div>
+ <div class="fb-box-body">
+ <div style="font-size:11px;line-height:1.8;color:#333;">
+  <p style="margin-bottom:8px;padding-left:28px;text-indent:-28px;">"John Hancock." <em>Encyclopaedia Britannica</em>, Encyclopaedia Britannica, Inc., www.britannica.com/biography/John-Hancock. Accessed 20 Mar. 2026.</p>
+  <p style="margin-bottom:8px;padding-left:28px;text-indent:-28px;">Mark, Harrison W. "John Hancock." <em>World History Encyclopedia</em>, 23 Aug. 2024, www.worldhistory.org/John_Hancock/. Accessed 20 Mar. 2026.</p>
+  <p style="margin-bottom:0;padding-left:28px;text-indent:-28px;">Hancock, Michael. "John Hancock and His Signature." <em>Pieces of History</em>, National Archives, 12 Sept. 2019, prologue.blogs.archives.gov/2019/09/12/john-hancock-and-his-signature/. Accessed 20 Mar. 2026.</p>
+ </div>
+ </div>
+ </div>
+
+ </div>
+</div>
+
+<!-- ====== FOOTER ====== -->
+<div class="fb-footer">
+ <div>
+ <a href="#">About</a>
+ <a href="#">Terms</a>
+ <a href="#">Privacy</a>
+ <a href="#">Help</a>
+ </div>
+ <div style="margin-top:6px;">
+ HistoryBook © 1776 · A Social Network for Historical Figures
+ </div>
+</div>
+
+</body>
+</html>
